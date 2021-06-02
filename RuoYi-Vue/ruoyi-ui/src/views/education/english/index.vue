@@ -86,7 +86,10 @@
         :headers= headers
         :data= this.currWordId
         multiple>
-        <el-button size="small" type="primary">点击上传</el-button>
+        <el-button size="small" type="primary"
+        v-hasPermi="['system:post:edit']"
+        >点击上传</el-button>
+        
       </el-upload>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>

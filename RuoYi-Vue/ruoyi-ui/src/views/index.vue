@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container home">
+  <!-- <div class="app-container home">
     <el-row :gutter="20">
       <el-col :sm="24" :lg="24">
         <blockquote class="text-warning" style="font-size: 14px">
@@ -516,6 +516,9 @@
         </el-card>
       </el-col>
     </el-row>
+  </div> -->
+  <div>
+    
   </div>
 </template>
 

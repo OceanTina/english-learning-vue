@@ -28,10 +28,11 @@
     </el-form>
 
     <div>
-      <el-button-group>
-        <el-button type="primary" icon="el-icon-arrow-left" @click="lastGroupWord">Last Group</el-button>
-        <el-button type="primary" @click="nextGroupWord">Next Group<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-      </el-button-group>
+        <el-button-group>
+          <el-button type="primary" icon="el-icon-arrow-left" @click="lastGroupWord">Last Group</el-button>
+          <el-button type="primary" @click="nextGroupWord">Next Group<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+        </el-button-group>      
+        <h3>当前Group：{{this.currGroupId}}单词数：{{this.groupWordEnList.length}}</h3>
     </div>
     
     <div>
@@ -73,8 +74,12 @@
       ></el-image>
 
     </div>
-    
-
+    <div>
+      <h3>{{this.groupWordEnList}}</h3>
+    </div>
+    <div>
+      <h3>{{this.groupWordZhList}}</h3>
+    </div>
   </div>
 </template>
 
@@ -92,6 +97,8 @@ export default {
       },
       groupWordPic: ['http://192.168.1.44/dev-api/profile/avatar/2021/04/17/81b9b41b-621e-4ca6-b761-3b9619d9432b.jpg'],
       currGroupId: 1,
+      groupWordEnList: [],
+      groupWordZhList: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -132,13 +139,22 @@ export default {
 
       getGroupWordByGrouIdClassId(this.form).then(data => {
         this.groupWordPic = [];
+        this.groupWordEnList = [];
+        this.groupWordZhList = [];
         if (data.length > 0) {
           console.log("getGroupWordByGrouIdClassId" + data[0].wordPic);
 
         data.forEach(element => {
+          // var src = 'http://106.54.133.155/prod-api' + element.wordPic;
           var src = 'http://192.168.1.44/dev-api' + element.wordPic;
+
           console.log("getGroupWordByGrouIdClassId" + src);
           this.groupWordPic.push(src);
+
+          var wordEn = element.wordEn;
+          this.groupWordEnList.push(wordEn);
+          var wordZh = element.wordCn;
+          this.groupWordZhList.push(wordZh);
         });
         }
         
