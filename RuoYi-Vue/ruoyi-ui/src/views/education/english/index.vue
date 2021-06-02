@@ -3,9 +3,8 @@
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="Grade" prop="gradeId">
         <el-input
-          v-model="queryParams.gradeId"
-          placeholder="请输入gradeId"
-          clearable
+          v-model="currGradeName"
+          readonly="true"
           size="small"
           @keyup.enter.native="handleQuery"
         />
@@ -184,6 +183,7 @@ export default {
   name: "Post",
   data() {
     return {
+      currGradeName: "高中英语",
       classAllList: [],
       currWordId: {},
       groupStatusOptions: [{
@@ -242,6 +242,7 @@ export default {
     };
   },
   created() {
+    this.setGradIdBeforCreatePage();
     this.getWordClassAllList();
     this.getList();
     this.getDicts("sys_normal_disable").then(response => {
@@ -249,6 +250,23 @@ export default {
     });
   },
   methods: {
+    setGradIdBeforCreatePage() {
+      var currPagePath = this.$route.path;
+      if (currPagePath.indexOf("geducation") != -1) {
+        this.queryParams.gradeId = 1;
+        this.currGradeName = "高中英语";
+      }else if (currPagePath.indexOf("4education") != -1) {
+        this.queryParams.gradeId = 2;
+        this.currGradeName = "四级英语";
+      }else if (currPagePath.indexOf("6education") != -1) {
+        this.queryParams.gradeId = 3;
+        this.currGradeName = "六级英语";
+      }else if (currPagePath.indexOf("yeducation") != -1) {
+        this.queryParams.gradeId = 4;
+        this.currGradeName = "雅思英语";
+      }
+
+    },
     getWordClassAllList() {
       getWordClassAllList().then(response => {
               this.classAllList = response;

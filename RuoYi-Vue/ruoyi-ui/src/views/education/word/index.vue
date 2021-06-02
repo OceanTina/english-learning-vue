@@ -3,9 +3,8 @@
     <el-form :model="form" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="Grade" prop="postCode">
         <el-input
-          v-model="form.gradeId"
-          placeholder="请输入Grade编码"
-          clearable
+          v-model="currGradeName"
+          readonly="true"
           size="small"
           @keyup.enter.native="handleQuery"
         />
@@ -91,6 +90,7 @@ export default {
   name: "Post",
   data() {
     return {
+      currGradeName: "高中英语",
       classAllList: [],
       headers: {
         Authorization: "Bearer " + getToken(),
@@ -117,6 +117,7 @@ export default {
     };
   },
   created() {
+    this.setGradIdBeforCreatePage();
     //get class by grade 1
     this.getWordClassAllList();
     //get group words Map<groupId, List<Word>>
@@ -126,6 +127,23 @@ export default {
 
   },
   methods: {
+    setGradIdBeforCreatePage() {
+      var currPagePath = this.$route.path;
+      if (currPagePath.indexOf("geducation") != -1) {
+        this.form.gradeId = 1;
+        this.currGradeName = "高中英语";
+      }else if (currPagePath.indexOf("4education") != -1) {
+        this.form.gradeId = 2;
+        this.currGradeName = "四级英语";
+      }else if (currPagePath.indexOf("6education") != -1) {
+        this.form.gradeId = 3;
+        this.currGradeName = "六级英语";
+      }else if (currPagePath.indexOf("yeducation") != -1) {
+        this.form.gradeId = 4;
+        this.currGradeName = "雅思英语";
+      }
+
+    },
 
     getWordClassAllList() {
       getWordClassAllList().then(response => {
